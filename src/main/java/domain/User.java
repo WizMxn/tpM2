@@ -21,7 +21,7 @@ public class User {
     @ManyToOne
     private Kahoot kahoot;
 
-    @OneToMany
-    private Collection<Answer> answer;
+    @OneToMany(mappedBy = "user")
+    private Collection<Answer> answers;
 
 }

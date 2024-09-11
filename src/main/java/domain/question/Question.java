@@ -23,6 +23,6 @@ public abstract class Question {
 
     private String question;
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "question")
     private Collection<Answer> answers;
 }

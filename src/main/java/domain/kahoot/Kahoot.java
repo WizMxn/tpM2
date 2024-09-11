@@ -17,7 +17,7 @@ public abstract class Kahoot {
 
     private Long pin;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "kahoot")
     private Collection<User> user;
 
 }

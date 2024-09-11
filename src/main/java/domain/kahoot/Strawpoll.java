@@ -14,6 +14,6 @@ import java.util.Collection;
 @NoArgsConstructor
 public class Strawpoll extends Kahoot {
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "kahoot")
     private Collection<Question> questions;
 }
