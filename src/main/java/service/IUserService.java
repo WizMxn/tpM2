@@ -18,7 +18,7 @@ public interface IUserService {
 
     void createStrawPoll(String username) throws UserException;
 
-    void addQuestion(String idKahoot, String username, Long idQuestion) throws UserException, QuestionException;
+    void addQuestion(Long idKahoot, String username, Long idQuestion) throws UserException, QuestionException;
 
-    void addQuestion(String idKahoot, String username, List<Long> idQuestions) throws UserException;
+    void addQuestion(Long idKahoot, String username, List<Long> idQuestions) throws UserException, QuestionException;
 }

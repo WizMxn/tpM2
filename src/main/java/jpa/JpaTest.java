@@ -1,5 +1,6 @@
 package jpa;
 
+import service.exception.QuestionException;
 import service.exception.UserException;
 import service.impl.QuestionServiceImpl;
 import service.impl.UserServiceImpl;
@@ -15,9 +16,15 @@ public class JpaTest {
         UserServiceImpl userService = new UserServiceImpl();
         QuestionServiceImpl questionTextService = new QuestionServiceImpl();
         try {
-            userService.createUser("raph");
-            userService.createQuiz("raph");
+           // userService.createUser("raph");
+           // userService.createQuiz("raph");
+
+           // questionTextService.createQuestionText("Comment ca va ?");
+
+            userService.addQuestion(1L, "raph", 1L);
         } catch (UserException e) {
+            e.printStackTrace();
+        } catch (QuestionException e) {
             e.printStackTrace();
         }
 

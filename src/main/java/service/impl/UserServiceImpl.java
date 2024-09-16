@@ -1,10 +1,7 @@
 package service.impl;
 
 import dao.IKahootDao;
-import dao.impl.QuestionTextDaoImpl;
-import dao.impl.QuizDaoImpl;
-import dao.impl.StrawPollDaoImpl;
-import dao.impl.UserDaoImpl;
+import dao.impl.*;
 import domain.User;
 import domain.kahoot.Kahoot;
 import domain.kahoot.Quiz;
@@ -15,6 +12,8 @@ import service.IUserService;
 import service.exception.QuestionException;
 import service.exception.UserException;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class UserServiceImpl implements IUserService {
@@ -61,18 +60,53 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void addQuestion(String idKahoot, String username, Long idQuestion) throws UserException, QuestionException {
+    public void addQuestion(Long idKahoot, String username, Long idQuestion) throws UserException, QuestionException {
         UserDaoImpl userDao = new UserDaoImpl();
         User user = userDao.findByUsername(username);
         if (user == null) {
             throw new UserException("User not found");
         }
 
+        KahootDaoImpl kahootDao = new KahootDaoImpl();
+        Kahoot kahoot = kahootDao.findOne(idKahoot);
+        if (kahoot == null) {
+            throw new UserException("Kahoot not found");
+        }
+
+        if (!kahoot.getOwner().equals(user)) {
+            throw new UserException("Kahoot owner mismatch");
+        }
 
         QuestionTextDaoImpl questionTextDao = new QuestionTextDaoImpl();
         QuestionText questionText = questionTextDao.findOne(idQuestion);
         if (questionText == null) {
             throw new QuestionException("Question not found");
+        }
+
+        questionText.setKahoot(kahoot);
+        questionTextDao.save(questionText);
+
+        if (kahoot instanceof Quiz) {
+            Quiz quiz = (Quiz) kahoot;
+            Collection<Question> questions = quiz.getQuestions();
+            if (questions == null) {
+                questions = new ArrayList<>();
+            }
+            questions.add(questionText);
+            quiz.setQuestions(questions);
+            QuizDaoImpl quizDao = new QuizDaoImpl();
+            quizDao.save(quiz);
+        } else if (kahoot instanceof StrawPoll) {
+            StrawPoll strawPoll = (StrawPoll) kahoot;
+            Collection<Question> questions = strawPoll.getQuestions();
+            if (questions == null) {
+                questions = new ArrayList<>();
+            }
+            questions.add(questionText);
+            strawPoll.setQuestions(questions);
+
+            StrawPollDaoImpl strawPollDao = new StrawPollDaoImpl();
+            strawPollDao.save(strawPoll);
         }
 
 
@@ -81,7 +115,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void addQuestion(String idKahoot, String username, List<Long> idQuestions) throws UserException {
-        
+    public void addQuestion(Long idKahoot, String username, List<Long> idQuestions) throws UserException, QuestionException {
+        for (Long idQuestion : idQuestions) {
+            addQuestion(idKahoot, username, idQuestion);
+        }
     }
 }

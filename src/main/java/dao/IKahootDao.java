@@ -1,10 +1,5 @@
 package dao;
 
-import domain.kahoot.Kahoot;
+public interface IKahootDao {
 
-import java.util.Optional;
-
-public interface IKahootDao<T extends Kahoot> {
-
-    Optional<T> findByIdPolymorphic(Long id);
 }
