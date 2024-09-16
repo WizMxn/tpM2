@@ -19,7 +19,7 @@ public class Answer {
     @ManyToOne
     private Question question;
 
-    private String answer;
+    private String userAnswer;
 
     @Id
     @GeneratedValue

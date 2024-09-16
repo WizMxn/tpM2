@@ -1,7 +1,6 @@
 package domain.kahoot;
 
 import domain.User;
-import domain.question.Question;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,9 +14,15 @@ public abstract class Kahoot {
     @GeneratedValue
     private Long id;
 
+    private KahootType type;
+
+    @GeneratedValue
     private Long pin;
 
-    @OneToMany(mappedBy = "kahoot")
+    @ManyToOne
+    private User owner;
+
+    @OneToMany(mappedBy = "joinedKahoot")
     private Collection<User> user;
 
 }

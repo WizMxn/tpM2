@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -19,7 +21,10 @@ public class User {
     private String username;
 
     @ManyToOne
-    private Kahoot kahoot;
+    private Kahoot joinedKahoot;
+
+    @OneToMany(mappedBy = "owner")
+    private Collection<Kahoot> ownedKahoot;
 
     @OneToMany(mappedBy = "user")
     private Collection<Answer> answers;

@@ -3,14 +3,15 @@ package domain.question;
 import domain.Answer;
 import domain.kahoot.Kahoot;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Collection;
-import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public abstract class Question {
 
@@ -21,7 +22,7 @@ public abstract class Question {
     @ManyToOne
     private Kahoot kahoot;
 
-    private String question;
+    private String userQuestion;
 
     @OneToMany(mappedBy = "question")
     private Collection<Answer> answers;

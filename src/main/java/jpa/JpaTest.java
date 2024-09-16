@@ -1,42 +1,34 @@
 package jpa;
 
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import service.exception.UserException;
+import service.impl.QuestionServiceImpl;
+import service.impl.UserServiceImpl;
 
 public class JpaTest {
 
 
-	private EntityManager manager;
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
 
-	public JpaTest(EntityManager manager) {
-		this.manager = manager;
-	}
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-			EntityManager manager = EntityManagerHelper.getEntityManager();
+        UserServiceImpl userService = new UserServiceImpl();
+        QuestionServiceImpl questionTextService = new QuestionServiceImpl();
+        try {
+            userService.createUser("raph");
+            userService.createQuiz("raph");
+        } catch (UserException e) {
+            e.printStackTrace();
+        }
 
-		JpaTest test = new JpaTest(manager);
 
-		EntityTransaction tx = manager.getTransaction();
-		tx.begin();
-		try {
+        // On est dans le controller
 
-			// TODO create and persist entity
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		tx.commit();
-
-			
-   	 manager.close();
-		EntityManagerHelper.closeEntityManagerFactory();
-		System.out.println(".. done");
-	}
+        // Ici on reçoit une requête de john ( le mieux est d'avoir un dto)
 
 
 
-
+        EntityManagerHelper.closeEntityManagerFactory();
+        System.out.println(".. done");
+    }
 }
