@@ -1,21 +1,13 @@
 package service.impl;
 
 import dao.*;
-import dao.impl.QuizDaoImpl;
-import dao.impl.StrawPollDaoImpl;
 import domain.User;
 import domain.kahoot.Kahoot;
-import domain.kahoot.Quiz;
-import domain.kahoot.StrawPoll;
-import domain.question.Question;
-import domain.question.QuestionText;
+import jakarta.transaction.Transactional;
 import service.IUserService;
-import service.exception.QuestionException;
 import service.exception.UserException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements IUserService {
 
@@ -47,4 +39,27 @@ public class UserServiceImpl implements IUserService {
         userDao.save(user);
     }
 
+    @Transactional
+    @Override
+    public void joinKahoot(Long userId, Long kahootPin) {
+        //recherche le kahhot en fonction d'un pin
+        Optional<User> userOptional = Optional.ofNullable(userDao.findOne(userId));
+        userOptional.orElseThrow();
+
+        //recherche de l'utilisateur avec un id
+        Optional<Kahoot> kahootOptional = Optional.ofNullable(kahootDao.findKahootByPin(kahootPin));
+        kahootOptional.orElseThrow();
+
+        User user = userOptional.get();
+        Kahoot kahoot = kahootOptional.get();
+
+        //ajoute le kahoot a l'utilisateur
+        user.setJoinedKahoot(kahoot);
+        //Ajoute l'utilisateur a la liste du kahoot
+        kahoot.addUser(user);
+
+        //save les deux
+        kahootDao.save(kahoot);
+        userDao.save(user);
+    }
 }

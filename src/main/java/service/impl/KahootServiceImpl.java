@@ -9,10 +9,10 @@ import domain.kahoot.Kahoot;
 import domain.kahoot.Quiz;
 import domain.kahoot.StrawPoll;
 import domain.question.Question;
-import jakarta.transaction.Transactional;
 import service.IKahootService;
 import service.exception.UserException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,29 +83,6 @@ public class KahootServiceImpl implements IKahootService {
         });
     }
 
-    @Transactional
-    @Override
-    public void joinKahoot(Long userId, Long kahootPin) {
-        //recherche le kahhot en fonction d'un pin
-        Optional<User> userOptional = Optional.ofNullable(userDao.findOne(userId));
-        userOptional.orElseThrow();
-
-        //recherche de l'utilisateur avec un id
-        Optional<Kahoot> kahootOptional = Optional.ofNullable(kahootDao.findKahootByPin(kahootPin));
-        kahootOptional.orElseThrow();
-
-        User user = userOptional.get();
-        Kahoot kahoot = kahootOptional.get();
-
-        //ajoute le kahoot a l'utilisateur
-        user.setJoinedKahoot(kahoot);
-        //Ajoute l'utilisateur a la liste du kahoot
-        kahoot.addUser(user);
-
-        //save les deux
-        kahootDao.save(kahoot);
-        userDao.save(user);
-    }
 
     @Override
     public List<Question> getAllQuestionFromKahoot(Long kahootId) {
@@ -113,15 +90,16 @@ public class KahootServiceImpl implements IKahootService {
         kahootOptional.orElseThrow();
 
         Kahoot kahoot = kahootOptional.get();
-        if(kahoot instanceof Quiz){
+        if (kahoot instanceof Quiz) {
             System.out.println("quizz");
-            ((Quiz) kahoot).getQuestions().forEach(Question::getUserQuestion);
             return (List<Question>) ((Quiz) kahoot).getQuestions();
         } else if (kahoot instanceof StrawPoll) {
             System.out.println("straw");
             return (List<Question>) ((StrawPoll) kahoot).getQuestions();
         }
-        return null;
+
+        //TODO verify this
+        return new ArrayList<>();
     }
 
 }

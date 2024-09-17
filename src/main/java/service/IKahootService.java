@@ -13,8 +13,7 @@ public interface IKahootService {
 
     void addQuestion(Long idKahoot, Long userid, List<Question> questions) throws UserException;
 
-    void joinKahoot(Long userId, Long kahootPin);
 
-    List<Question> getAllQuestionFromKahoot(Long kahootid);
+    List<Question> getAllQuestionFromKahoot(Long kahootId);
 
 }
