@@ -14,7 +14,9 @@ public class QuizDaoImpl extends AbstractJpaDao<Long, Quiz> implements IQuizDao 
 
     @Override
     public void addQuestion(Kahoot kahoot, Question question) {
-        question.setKahoot(kahoot);
-        entityManager.persist(question);
+        executeInsideTransaction(manager -> {
+            question.setKahoot(kahoot);
+            entityManager.persist(question);
+        });
     }
 }

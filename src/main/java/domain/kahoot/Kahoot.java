@@ -27,4 +27,8 @@ public abstract class Kahoot {
     @OneToMany(mappedBy = "joinedKahoot")
     private Collection<User> user;
 
+    public void addUser(User user){
+        this.user.add(user);
+    }
+
 }

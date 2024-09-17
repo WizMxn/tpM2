@@ -1,15 +1,10 @@
 package jpa;
 
 import dao.impl.*;
-import domain.Answer;
-import domain.User;
-import domain.kahoot.Kahoot;
-import domain.kahoot.Quiz;
-import domain.question.QuestionChoice;
-import domain.question.QuestionText;
-import service.exception.QuestionException;
+import domain.question.Question;
+import service.IKahootService;
 import service.exception.UserException;
-import service.impl.QuestionServiceImpl;
+import service.impl.KahootServiceImpl;
 import service.impl.UserServiceImpl;
 
 import java.util.List;
@@ -24,22 +19,33 @@ public class JpaTest {
 
         //TODO change the injection dependance
         UserServiceImpl userService = new UserServiceImpl(new UserDaoImpl(), new QuizDaoImpl(), new StrawPollDaoImpl(), new KahootDaoImpl(), new QuestionTextDaoImpl(), new QuestionChoiceDaoImpl());
+        IKahootService kahootService = new KahootServiceImpl(new UserDaoImpl(), new KahootDaoImpl(), new QuizDaoImpl(), new StrawPollDaoImpl());
 
+ /*       //créer un user
         userService.createUser("mathis");
 
-        userService.createQuiz("mathis");
+        //créer un quizz
+        kahootService.createQuiz("mathis", "quizz1");*/
 
+        //créer un autre user
+        /*userService.createUser("Raphaël");*/
 
+        //Join a kahoot
+        /*kahootService.joinKahoot(2L, 1L);*/
+
+/*
         QuestionText questionText = new QuestionText();
         questionText.setUserQuestion("questionTexte 1 ");
 
         QuestionChoice questionChoice = new QuestionChoice();
         questionChoice.setUserQuestion("QuestionChoice 2");
 
-        userService.addQuestion(1L, 1L, List.of(questionText, questionChoice));
+        kahootService.addQuestion(1L, 1L, List.of(questionText, questionChoice));*/
 
-        //userService.addQuestionId(1L, "raph", 1L);
-
+        List<Question> questions = kahootService.getAllQuestionFromKahoot(1L);
+        questions.forEach(q -> {
+            System.out.println(q.getUserQuestion());
+        });
 
         // On est dans le controller
 
