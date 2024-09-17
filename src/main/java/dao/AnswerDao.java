@@ -1,4 +1,6 @@
 package dao;
 
-public interface AnswerDao {
+import domain.Answer;
+
+public interface AnswerDao extends IGenericDao<Long, Answer> {
 }

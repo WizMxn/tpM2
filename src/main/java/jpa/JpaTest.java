@@ -1,9 +1,18 @@
 package jpa;
 
+import dao.impl.*;
+import domain.Answer;
+import domain.User;
+import domain.kahoot.Kahoot;
+import domain.kahoot.Quiz;
+import domain.question.QuestionChoice;
+import domain.question.QuestionText;
 import service.exception.QuestionException;
 import service.exception.UserException;
 import service.impl.QuestionServiceImpl;
 import service.impl.UserServiceImpl;
+
+import java.util.List;
 
 public class JpaTest {
 
@@ -11,22 +20,25 @@ public class JpaTest {
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UserException {
 
-        UserServiceImpl userService = new UserServiceImpl();
-        QuestionServiceImpl questionTextService = new QuestionServiceImpl();
-        try {
-           // userService.createUser("raph");
-           // userService.createQuiz("raph");
+        //TODO change the injection dependance
+        UserServiceImpl userService = new UserServiceImpl(new UserDaoImpl(), new QuizDaoImpl(), new StrawPollDaoImpl(), new KahootDaoImpl(), new QuestionTextDaoImpl(), new QuestionChoiceDaoImpl());
 
-           // questionTextService.createQuestionText("Comment ca va ?");
+        userService.createUser("mathis");
 
-            userService.addQuestion(1L, "raph", 1L);
-        } catch (UserException e) {
-            e.printStackTrace();
-        } catch (QuestionException e) {
-            e.printStackTrace();
-        }
+        userService.createQuiz("mathis");
+
+
+        QuestionText questionText = new QuestionText();
+        questionText.setUserQuestion("questionTexte 1 ");
+
+        QuestionChoice questionChoice = new QuestionChoice();
+        questionChoice.setUserQuestion("QuestionChoice 2");
+
+        userService.addQuestion(1L, 1L, List.of(questionText, questionChoice));
+
+        //userService.addQuestionId(1L, "raph", 1L);
 
 
         // On est dans le controller

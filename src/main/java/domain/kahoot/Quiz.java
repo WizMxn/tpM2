@@ -4,10 +4,12 @@ import domain.question.Question;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 public class Quiz extends Kahoot {

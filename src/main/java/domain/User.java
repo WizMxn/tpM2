@@ -3,6 +3,7 @@ package domain;
 import domain.kahoot.Kahoot;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.util.Collection;
 @Entity
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 public class User {
 
     @Id

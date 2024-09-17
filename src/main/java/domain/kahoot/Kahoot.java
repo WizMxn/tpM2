@@ -14,6 +14,8 @@ public abstract class Kahoot {
     @GeneratedValue
     private Long id;
 
+    private String title;
+
     private KahootType type;
 
     @GeneratedValue

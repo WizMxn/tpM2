@@ -1,4 +1,6 @@
 package dao;
 
-public interface IQuestionChoiceDao {
+import domain.question.QuestionChoice;
+
+public interface IQuestionChoiceDao extends IGenericDao<Long, QuestionChoice> {
 }

@@ -6,6 +6,7 @@ import jpa.EntityManagerHelper;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class AbstractJpaDao<K, T> implements IGenericDao<K, T> {
 
@@ -27,30 +28,39 @@ public abstract class AbstractJpaDao<K, T> implements IGenericDao<K, T> {
         return entityManager.createQuery("select e from " + clazz.getName() + " as e", clazz).getResultList();
     }
 
-    public void save(T entity) {
-        EntityTransaction t = this.entityManager.getTransaction();
-        t.begin();
-        entityManager.persist(entity);
-        t.commit();
+    public void save(T t) {
+        executeInsideTransaction(entityManager -> {
+            entityManager.persist(t);
+        });
     }
 
-    public T update(final T entity) {
-        EntityTransaction t = this.entityManager.getTransaction();
-        t.begin();
-        T res = entityManager.merge(entity);
-        t.commit();
-        return res;
+    public void update(T t) {
+        executeInsideTransaction(entityManager -> {
+            entityManager.merge(t);
+        });
     }
 
     public void delete(T entity) {
-        EntityTransaction t = this.entityManager.getTransaction();
-        t.begin();
-        entityManager.remove(entity);
-        t.commit();
+        executeInsideTransaction(entityManager1 -> {
+            entityManager.remove(entity);
+        });
     }
 
     public void deleteById(K entityId) {
         T entity = findOne(entityId);
         delete(entity);
     }
+
+    public void executeInsideTransaction(Consumer<EntityManager> action) {
+        EntityTransaction tx = entityManager.getTransaction();
+        try {
+            tx.begin();
+            action.accept(entityManager);
+            tx.commit();
+        } catch (RuntimeException e) {
+            tx.rollback();
+            throw e;
+        }
+    }
+
 }
