@@ -31,7 +31,7 @@ public class KahootServiceImpl implements IKahootService {
     }
 
     @Override
-    public void createQuiz(String username, String title) throws UserException { //TODO add a name to the quizz maybe ?
+    public void createQuiz(String username, String title, Long pin) throws UserException {
         User user = userDao.findByUsername(username);
         if (user == null) {
             throw new UserException("User not found");
@@ -39,19 +39,21 @@ public class KahootServiceImpl implements IKahootService {
         Quiz quiz = new Quiz();
         quiz.setOwner(user);
         quiz.setTitle(title);
-        quiz.setPin(1L);
+        quiz.setPin(pin);
 
         quizDao.save(quiz);
     }
 
     @Override
-    public void createStrawPoll(String username) throws UserException {
+    public void createStrawPoll(String username, String title, Long pin) throws UserException {
         User user = userDao.findByUsername(username);
         if (user == null) {
             throw new UserException("User not found");
         }
         StrawPoll strawPoll = new StrawPoll();
         strawPoll.setOwner(user);
+        strawPoll.setTitle(title);
+        strawPoll.setPin(pin);
 
         strawPollDao.save(strawPoll);
     }

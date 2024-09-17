@@ -7,12 +7,11 @@ import java.util.List;
 
 public interface IKahootService {
 
-    void createQuiz(String username, String title) throws UserException;
+    void createQuiz(String username, String title, Long pin) throws UserException;
 
-    void createStrawPoll(String username) throws UserException;
+    void createStrawPoll(String username, String title, Long pin) throws UserException;
 
     void addQuestion(Long idKahoot, Long userid, List<Question> questions) throws UserException;
-
 
     List<Question> getAllQuestionFromKahoot(Long kahootId);
 
