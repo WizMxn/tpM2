@@ -1,6 +1,9 @@
 package service;
 
+import domain.User;
 import service.exception.UserException;
+
+import java.util.List;
 
 
 public interface IUserService {
@@ -9,5 +12,6 @@ public interface IUserService {
 
     void joinKahoot(Long userId, Long kahootPin);
 
+    List<User> getAll();
 
 }

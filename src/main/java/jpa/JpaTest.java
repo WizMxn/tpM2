@@ -42,11 +42,11 @@ public class JpaTest {
 
         kahootService.addQuestion(1L, 1L, List.of(questionText, questionChoice));*/
 
-        List<Question> questions = kahootService.getAllQuestionFromKahoot(1L);
+     /*   List<Question> questions = kahootService.getAllQuestionFromKahoot(1L);
         questions.forEach(q -> {
             System.out.println(q.getUserQuestion());
         });
-
+*/
         // On est dans le controller
 
         // Ici on reçoit une requête de john ( le mieux est d'avoir un dto)

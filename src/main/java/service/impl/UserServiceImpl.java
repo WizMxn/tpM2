@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import service.IUserService;
 import service.exception.UserException;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements IUserService {
@@ -29,6 +30,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void createUser(String username) throws UserException {
+        //Pas vraiment une erreur si ?
         if (userDao.findByUsername(username) != null) {
             throw new UserException("Username already used");
         }
@@ -61,5 +63,10 @@ public class UserServiceImpl implements IUserService {
         //save les deux
         kahootDao.save(kahoot);
         userDao.save(user);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userDao.findAll();
     }
 }
