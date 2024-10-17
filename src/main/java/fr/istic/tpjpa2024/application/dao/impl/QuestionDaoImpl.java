@@ -1,0 +1,19 @@
+package fr.istic.tpjpa2024.application.dao.impl;
+
+import fr.istic.tpjpa2024.application.dao.AbstractJpaDao;
+import fr.istic.tpjpa2024.application.dao.QuestionDao;
+import fr.istic.tpjpa2024.application.domain.question.Question;
+
+import java.util.List;
+
+public class QuestionDaoImpl extends AbstractJpaDao<Question, Long> implements QuestionDao {
+
+    public QuestionDaoImpl() {
+        super(Question.class);
+    }
+
+    public List<Question> findQuestionsByKahootId(Long kahootId) {
+        return null; //TODO
+    }
+}
+
