@@ -17,8 +17,7 @@ public class UserDaoImpl extends AbstractJpaDao<User, Long> implements UserDao {
     @Override
     public Optional<User> findByUsername(String username) {
         TypedQuery<User> query = entityManager.createQuery(
-                "select e from " + User.class.getName() +
-                        " e where e.username like :username",
+                "select e from User e where e.username like :username",
                 User.class);
         query.setParameter("username", username);
         User result = null;
